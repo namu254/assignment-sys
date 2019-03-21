@@ -1,5 +1,7 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-<p>Edit your units</p>
+{% for unit in units %}
+<p>{{ unit.unit_name }}</p>
+{% endfor %}
 {% endblock %}

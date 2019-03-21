@@ -30,7 +30,6 @@ def index(request):
 @csrf_protect
 def student_dashboard(request):
   no_course = Student.objects.filter(course__isnull=True)
-  
   if no_course:
     return redirect('select_course')
   return render(request, 'student_dashboard.html')
@@ -64,10 +63,15 @@ def student_edit_units(request):
   # get the course and the units in that course
   student = Student.objects.get(adm_no=request.user)
   student_course = student.course
+  student_name = student.full_name
   # Select the units that are in that course
   units = Unit.objects.filter(course=student_course)
-  
-  return render(request, 'student_edit_units.html')
+  context = {
+    'units': units,
+    'course_name': student_course,
+    'student_name' : student_name
+  }
+  return render(request, 'student_edit_units.html', context)
 
 
 # Lecturer dashboard
