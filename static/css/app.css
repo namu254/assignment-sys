@@ -1,0 +1,64 @@
+
+body {
+   background-color: #fffafa;
+   
+}
+
+.title-bar{
+   background-color: mediumseagreen;
+   color: white;
+   box-shadow:0 1px 0px rgba(0,0,0,0.13);
+}
+.name{
+   margin-bottom: 0px;
+   letter-spacing: 0.5px;
+   cursor: pointer;
+   
+}
+.highlight{
+   background-color: #ffeb3b;
+   color: black;
+   padding: 5px;
+}
+
+
+.button {
+   border-radius: 3px;
+   
+}
+
+select{
+   border-radius: 3px;
+}
+[type='text'], 
+[type='password'], 
+[type='date'], 
+[type='datetime'], 
+[type='datetime-local'], 
+[type='month'], 
+[type='week'], 
+[type='email'], 
+[type='number'], 
+[type='search'], 
+[type='tel'], 
+[type='time'], 
+[type='url'], 
+[type='color'],
+textarea {
+   border-radius: 3px;
+}
+
+
+/*delete account modal*/
+/* The Modal (background) */
+
+
+
+
+.response{
+  color: white;
+  margin-bottom: 0px;
+  text-align: center;
+  font-size: medium;
+}
+
