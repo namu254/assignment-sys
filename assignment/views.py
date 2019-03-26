@@ -29,10 +29,16 @@ def index(request):
 @login_required(login_url='login')
 @csrf_protect
 def student_dashboard(request):
+  # check if the student has selected a course
   no_course = Student.objects.filter(course__isnull=True)
   if no_course:
     return redirect('select_course')
-  return render(request, 'student_dashboard.html')
+  # get the student details
+  student_details = Student.objects.filter(adm_no=request.user)
+  context = {
+    'student_details': student_details
+  }
+  return render(request, 'student_dashboard.html',context)
 
 # Select course
 @login_required(login_url='login')
@@ -60,6 +66,18 @@ def select_course(request):
 @login_required(login_url='login')
 @csrf_protect
 def student_edit_units(request):
+  if request.method == "POST":
+    		# get the json from the ajax
+    changes = request.POST.getlist('data[]')
+    student_units = Student.objects.get(adm_no=request.user)
+    student_units.units = changes
+    student_units.save()
+    changes_saved = True
+    print(changes)
+    data = {
+      "changes_saved": changes_saved
+    }
+    return JsonResponse(data)
   # get the course and the units in that course
   student = Student.objects.get(adm_no=request.user)
   student_course = student.course
@@ -72,6 +90,18 @@ def student_edit_units(request):
     'student_name' : student_name
   }
   return render(request, 'student_edit_units.html', context)
+
+
+
+# get the student units
+@login_required(login_url='login')
+@csrf_protect
+def student_get_units(request):
+	student_units = Student.objects.values_list('units', flat=True).filter(adm_no= request.user)
+	for i in student_units:
+		data = list(i)
+	# data = serializers.serialize('json',user_interests)
+	return JsonResponse(data, safe=False)
 
 
 # Lecturer dashboard

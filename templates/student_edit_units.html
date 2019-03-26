@@ -1,7 +1,23 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-{% for unit in units %}
-<p>{{ unit.unit_name }}</p>
-{% endfor %}
+<div class="grid-container">
+  <div class="float-center">
+    <p class="lead">Select the units your are taking.</p>
+  </div>
+  <div class="grid-x grid-margin-x small-up-2 medium-up-3 large-up-5">
+    {% for unit in units %}
+    <div class="cell">
+      <div class="unit_container" id="{{unit.unit_code}}">
+			<div class="center_text">
+      {{ unit.unit_code }}
+      <br>
+      {{unit.unit_name}}
+      </div>
+	  </div>
+  </div>
+    {% endfor %}
+  </div>
+    <button class="button primary save_changes">Save Units</button>
+</div>
 {% endblock %}

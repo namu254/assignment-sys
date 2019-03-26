@@ -3,10 +3,25 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="row">
-    <div class="medium-7 large-6 columns">
-        <h2>Student Name</h2>
-    </div>
+<div class="grid-container-fluid">
+    <div class="stu_details">
+        {% for student in student_details %}
+            <span class='lead stu_dashboard'>Student Dashboard</span>
+            <p class="stu_name lead">
+            <span>{{student.full_name|capfirst }},</span>
+            <small>{{ student.adm_no}}</small>
+            <p class='button primary small float-right'>Log out</p>
+            </p>
+        {% endfor %}
+    <p class='lead'>Selected units <a href="{% url 'student_edit_units' %}">Edit</a> </p>
+    {% for student in student_details %}
+        {% for unit in student.units %}
+            <p class="stu_unit">{{ unit}}</p>
+        {% endfor %}
+    {% endfor %}
+    </div>   
+  <div class="grid-x grid-margin-x small-up-2 medium-up-3 large-up-5">
+  </div>
 </div>
 
 {% endblock %}

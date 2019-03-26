@@ -84,80 +84,87 @@ $('.sign_up').on('submit', function(event){
   });
 });
 
-  // get user interests from the server 
-  var user_interests = [];
+  // get user units from the server 
+  var user_units = [];
+  var selected;
   $(document).ready(function(){ 
     var i;
     $.ajax({
-      url: '/get_interests',
+      url: '/student_get_units',
       async: false,
       success:function(data){
         var i;
         var l = data.length;
         for(i=0;i<l;++i){
-          user_interests.push(data[i]);
+          user_units.push(data[i]);
         }
       } 
     })
-    // looping through the DOM highlighting the user interests
-    $('.interest_container').each(function(){
+    // looping through the DOM highlighting the user units
+    $('.unit_container').each(function(){
       var id = this.id;
       var this_container = $(this);
       var i;
-      var l = user_interests.length;
+      var l = user_units.length;
       for(i=0;i<l;++i){
-          if(user_interests[i] === id){
-            this_container.addClass('interest_container_selected');
+          if(user_units[i] === id){
+            this_container.addClass('unit_container_selected');
           }
         }
     });
   });
 
-// select the interest
-$('.interest_container').click(function(){
-  console.log("clicked")
+// select the unit
+$('.unit_container').click(function(){
+  $('.save_changes').css("background-color", "#2ec4b6");
     var id = this.id;
-  if($(this).hasClass("interest_container_selected")){
-    // remove interest from the array && not the last element in the array(pop)
-    $(this).removeClass("interest_container_selected");
-    user_interests = jQuery.grep(user_interests,function(value){
+  if($(this).hasClass("unit_container_selected")){
+    // remove unit from the array && not the last element in the array(pop)
+    $(this).removeClass("unit_container_selected");
+    user_units = jQuery.grep(user_units,function(value){
       return value != id;
     });
   } else{
-    // add interest to the array (at the end) 
-     $(this).addClass("interest_container_selected");
-     user_interests.push(id);
+    // add unit to the array (at the end) 
+     $(this).addClass("unit_container_selected");
+     user_units.push(id);
   }
-  var selected = user_interests.length;
-  $('.response').css("background-color", "#000000");
-  $('.response').text(selected + " interests selected" );
+  selected = user_units.length;
+  console.log(user_units)
+  $('.response').css("background-color", "#ff9f1c");
+  $('.response').text(selected + " units selected" );
 });
 
 
 
-// Send the interests changes the server
+// Send the units changes the server
+var $modal = $('#modal');
 $('.save_changes').click(function(){
-  var final = user_interests;
+  var final = user_units;
+  console.log(final)
   $('.response').css("background-color", "#000000");
-  $('.response').text("Updating interest...");
+  $('.response').text("Updating unit...");
   $.ajax({
-  url: '/edit_interests',
+  url: '/student_edit_units',
   type: 'POST',
   data: {'data':final},
   success:function(data){
     if(data.changes_saved){
-      $('.response').css("background-color", "#4CAF50");
-        $('.response').text("Interests saved");
+      $('.response').css("background-color", "#2ec4b6");
+        $('.response').text(selected + "Units saved");
     }
     window.setTimeout(reload_page, 1000);
       function reload_page() {
-          window.location = "/";
+          window.location = "/student_dashboard";
         } 
   },
   error:function(xhr,errmsg,err){
-      $('.response').css("background-color", "red");
-      $('.response').text("Failed");
+      $('.response').css("background-color", "#e71d36");
+      $('.response').text(err);
     }
+})
+.done(function() {
+  $modal.html(resp).foundation('open');
 });
 })
 

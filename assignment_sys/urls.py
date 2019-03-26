@@ -25,5 +25,6 @@ urlpatterns = [
     path('student_dashboard', views.student_dashboard, name='student_dashboard'),
     path('lecturer_dashboard', views.lecturer_dashboard, name='lecturer_dashboard'),
     path('select_course', views.select_course, name='select_course'),
-    path('student_edit_units', views.student_edit_units, name='student_edit_units')
+    path('student_edit_units', views.student_edit_units, name='student_edit_units'),
+    path('student_get_units', views.student_get_units, name='student_get_units')
 ]
