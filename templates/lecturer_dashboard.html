@@ -3,10 +3,56 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="row">
-    <div class="medium-7 large-6 columns">
-        <h2>Lecturer Name</h2>
-    </div>
+<div class="grid-container">
+    <div class="grid-x grid-padding-x grid_whole">
+        <div class="large-12 cell grid_current_units">
+        
+            <div class="stu_details">
+                <ul class="dropdown menu float-right" data-dropdown-menu>
+                    <li>
+                    <a href="#" class='profile_a'>Account</a>
+                        <ul class="menu profile_menu">
+                            <li><a href="{% url 'lecturer_edit_units' %}">Edit units</a></li>
+                            <li><a href="{% url 'logout' %}">Log out</a></li>
+                        </ul>
+                    </li>
+                </ul>
+                {% for lecturer in lecturer_details %}
+                    <span class='lead stu_dashboard'>Lecturer Dashboard </span>
+                    <p class="stu_name lead">
+                        <span>{{lecturer.full_name|capfirst }},
+                        <small>{{ lecturer.staff_no}}</small>
+                    </span>
+                    </p>
+                {% endfor %}
+                <div class="stu_curr_units">
+                    <p class='lead' style='margin-bottom: 10px;'>Selected lecturer units</p>
+                    {% for lecturer in lecturer_details %}
+                    {% for unit in lecturer.lec_units %}
+                        <p class="stu_unit">{{ unit}}</p>
+                    {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        {% comment %} Service {% endcomment %}
+        <div class="large-12 medium-12 cell grid_services" style="margin-top:50px;margin-bottom:50px;">
+            <input type="text" id="datepicker">
+            <div class="action_container">
+                <div class="action_card">
+                    <i class="fi-plus action_icons float-center"></i>
+                    <p class="action_text">Give assignment to students</p>
+                </div>
+            </div>
+            <div class="action_container">
+                <div class="action_card">
+                    <i class="fi-page-multiple action_icons float-center"></i>
+                    <p class="action_text">View given/submitted assignment</p>
+                </div>
+            </div>
+            
+        </div>   
+    </div> 
 </div>
 
 {% endblock %}

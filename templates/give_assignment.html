@@ -5,6 +5,7 @@
     <div class="grid-x grid-padding-x">
 		<div class="float-center" style='margin-top: 40px;'>
     <p class="lead">Select the course and year of your study.</p>
+    
 		<form method="post" action="{% url 'select_course' %}">
 		{% csrf_token %}
 		{{ form|crispy }}

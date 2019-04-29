@@ -7,25 +7,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title></title>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
+    
+    <title>SLS</title>
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/foundation-icons.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet">
   </head>
 
   <style type="text/css">
   
-
-
-  @font-face{
-  font-family: 'AbrilFatface';
-  font-style: normal;
-  src: url(' {% static "fonts/AbrilFatface-Regular.ttf" %}') format('truetype');
-}
 @font-face{
-   font-family: 'Mukta';
+   font-family: 'Lato';
    font-style: normal;
-   src: url('{% static "fonts/Mukta-Regular.ttf" %}') format('truetype');
+   font-weight: bold; 
+   src: url('{% static "fonts/Lato-Bold.ttf" %}') format('truetype');
 }
 @font-face {
   font-family: "foundation-icons";
@@ -44,6 +44,7 @@
 {% endblock %}
 
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
+<script src="{% static 'js/jquery-ui.js' %}"></script>
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/custom.js' %}"></script>
 <script src="{% static 'js/foundation.min.js' %}"></script>

@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="grid-container">
+    <div class="grid-x grid-padding-x grid_whole">
+        <div class="large-12 cell grid_current_units">
+            <div class="lec_units_section">
+            <p class='lead'>Selected units</p>
+                <div class="lec_units">
+                  
+                    {% for lecturer in lecturer_details %}
+                        {% for unit in lecturer.lec_units %}
+                            <div class="unit_chip">
+                                {{ unit}}
+                                <span class="del_lec_unit" id="{{unit}}">&times;</span>
+                            </div>
+                        {% empty %}
+                        <small>Sorry, No Selected units</small>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <hr>
+        <div class="large-5 medium-5 cell grid_selection">
+        <p class='lead'>Select the unit parameters</p>
+        <form method="post" action="" class="get_units">
+		{% csrf_token %}
+		{{ form|crispy }}
+		<input type="submit" class="button primary small float-center" value="Get units" style="width: 100%">
+
+        </div>
+        <div class="large-7 medium-7 cell grid_units">
+            <div class="all_units">
+                <p class="no_parameters">No unit parameters Selected</p>
+            </div>
+        </div>
+        
+	</div>
+    <a href="{% url 'lecturer_dashboard' %}" class="button primary float-right" style="margin-top:10px">Done</a>
+</div>
+</div>
+{% endblock %}

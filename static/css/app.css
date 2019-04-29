@@ -4,15 +4,14 @@ Colors
 
 body {
    background-color: #fdfffc;
-   font-family: 'Mukta', sans-serif;
+   font-family: 'Lato', sans-serif; 
+   
 }
 
 .title-bar{
    background-color: #011627;
-   color: white;
-   /* box-shadow: 0px 2px 3px 0px rgba(47,64,78,0.75);
--webkit-box-shadow: 0px 2px 3px 0px rgba(47,64,78,0.75);
--moz-box-shadow: 0px 2px 3px 0px rgba(47,64,78,0.75); */
+   color:#fdfffc;
+
 }
 .name{
    margin-bottom: 0px;
@@ -74,6 +73,9 @@ textarea:focus {
   margin-bottom: 0px;
   text-align: center;
   font-size: medium;
+  padding: 5px 0px 5px 0px;
+   font-size: 16px;
+
 }
 
 .unit_container_selected{
@@ -108,18 +110,19 @@ textarea:focus {
    color: #fff;
    border: none;
 }
-.save_changes{
-   background-color: #fff !important;
-   border: 1px solid #2ec4b6 !important;
-   color: #000 !important;
-}
 .stu_details{
-   background-color: #e6e8e6;
-   padding: 25px;
-   color: #8b8c8a;
+   padding: 20px;
+   color: #444;
+   border-radius: 5px;
+   background-color: #f1f1f1;
 }
 .stu_name {
    font-size: 300%;
+}
+.stu_incr{
+   font-size: medium;
+   font-style: italic;
+   
 }
 .stu_unit{
    display: inline;
@@ -145,5 +148,171 @@ textarea:focus {
    background-color: #8b8c8a;
    color: #e6e8e6;
    border-radius: 5px;
+}
+.stu_curr_units{
+   margin-top: 10px;
+   border-top: 1px solid #ccc;
+   padding-top: 10px;
+
+}
+.profile_a{
+   padding: 0px 10px 0px 10px;
+   border-radius: 3px;
+   color: #fff;
+   background-color: #2ec4b6;
+}
+.profile_a:hover{
+   color: #fff;
+   background-color: #2ab3a6;
+}
+.dropdown.menu > li.is-dropdown-submenu-parent > a::after {
+   border-color: #fff transparent transparent;
+    border-top-color: #fff;
+    border-right-color: transparent;
+    border-bottom-color: transparent;
+    border-left-color: transparent;
+}
+.dropdown.menu .is-active > a {
+   background-color: #2ec4b6;
+   color: #fff;
+}
+.profile_menu{
+   background-color: #fff;
+   border-radius: 3px;
+   border: 1px solid #2ec4b6;
+}
+.profile_menu li a{
+   color: #2ec4b6;
+}
+.profile_menu li a:hover{
+   background-color: #2ec4b6;
+   color: #fff;
+}
+.course_name:hover{
+   background-color: #2ec4b6;
+   color: #fff;
+   cursor: pointer;
+}
+.lec_unit_details{
+   display: block;
+   padding: 10px 10px 10px 0px;
+   border-radius: 3px;
+   border: 1px solid #2ec4b6;
+   margin-bottom: 10px;
+   color: #2ec4b6;
+   cursor: pointer;
+   font-size: medium;
+   
+}
+.lec_unit_details:hover{
+   background-color: #2ec4b6;
+   color: #fff;
+   cursor: pointer;
+}
+.unit_sem{
+   background-color: #2ec4b6;
+   color: #fff;
+   padding: 10px 10px 10px 10px;
+   margin-right: 5px;
+}
+.lec_units_section{
+   color: #000;
+   padding-bottom: 30px;
+   padding-top: 10px;
+}
+.all_units{
+   margin-top: 50px;
+}
+.unit_chip {
+   display: inline-block;
+   padding: 0 25px;
+   height: 50px;
+   font-size: medium;
+   line-height: 50px;
+   border-radius: 25px;
+   color: #fff;
+   background-color: #2ec4b6;
+   padding-right: 0px;
+   margin-right: 5px;
+   margin-bottom: 5px;
+   cursor: default;
+ }
+.del_lec_unit {
+   padding-left: 15px;
+   color: #fff;
+   float: right;
+   font-size: xx-large;
+   cursor: pointer;
+   background: #2ab3a6;
+   border-bottom-right-radius: 25px;
+   border-top-right-radius: 25px;
+   padding-right: 15px;
+   margin-left: 15px;
+ }
+ 
+ .del_lec_unit:hover {
+   background-color: #e71d36;
+ }
+ .grid_whole_stu{
+   border: 1px solid #ccc;
+   border-radius: 5px;
+   padding-top: 10px;
+   background-color: #f1f1f1;
+ }
+ .grid_whole{
+   border: 1px solid #ccc;
+   border-radius: 5px;
+ }
+ .grid_current_units{
+   background-color: #f1f1f1;
+   border-bottom: 1px solid #ccc;;
+ }
+ 
+ .grid_selection{
+   border-right: 1px solid #ccc;
+   background-color: #f1f1f180;
+   padding-top: 10px;
+ }
+ .grid_units{
+   background-color: #f1f1f180;
+   
+ }
+.no_parameters{
+   text-align: center;
+}
+.grid_services{
+   
+   padding-top: 10px;
+}
+.action_container{
+   float: left;
+   width: 20%;
+   height: 100%;
+   margin: 0px 5px 5px 0px ;
+   padding: 0 8px;
+   border: 1px solid #ccc;
+   border-radius: 3px;
+   background-color: #f1f1f1;
+   color: #444;
+}
+.action_container:hover{
+   background-color: #2ab3a6;
+   color: #FFF;
+   cursor: pointer;
+   border-color: #2ab3a6;
+}
+@media screen and (max-width: 650px) {
+   .action_container {
+     width: 100%;
+     display: block;
+   }
+ }
+.action_icons{
+   font-size: 60px;
+   text-align: center;
+   
+}
+.action_text{
+   text-align: center;
 }
 

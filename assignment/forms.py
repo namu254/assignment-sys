@@ -8,4 +8,45 @@ class signUpForm(forms.Form):
 	password = forms.CharField(widget=forms.PasswordInput())
 
 class allcourseForm(forms.Form):
-	course = forms.ModelMultipleChoiceField(queryset=Course.objects.all())
+	First = '1'
+	Second = '2'
+	Third = '3'
+	Fourth = '4'
+	Year_choices = (
+        (First, 'First Year'),
+        (Second, 'Second Year'),
+        (Third, 'Third Year'),
+        (Fourth, 'Fourth Year'),
+    )
+	Semester_choices = (
+        (First, 'First Semester'),
+        (Second, 'Second Semester'),
+        (Third, 'Third Semester'),
+        (Fourth, 'Fourth Semester'),
+    )
+	course = forms.ModelChoiceField(queryset=Course.objects.all())
+	year = forms.ChoiceField(choices=Year_choices)
+	semester = forms.ChoiceField(choices=Semester_choices)
+
+
+class unitFilterForm(forms.Form):
+	First = '1'
+	Second = '2'
+	Third = '3'
+	Fourth = '4'
+	Year_choices = (
+        (First, 'First Year'),
+        (Second, 'Second Year'),
+        (Third, 'Third Year'),
+        (Fourth, 'Fourth Year'),
+    )
+	Semester_choices = (
+        (First, 'First Semester'),
+        (Second, 'Second Semester'),
+        (Third, 'Third Semester'),
+        (Fourth, 'Fourth Semester'),
+    )
+	course = forms.ModelChoiceField(queryset=Course.objects.all())
+	year = forms.ChoiceField(choices=Year_choices)
+	semester = forms.ChoiceField(choices=Semester_choices)
+	
