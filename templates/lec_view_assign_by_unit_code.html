@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="below_nav">
+    <h3 class="center-align">View assigments</h3>
+  </div>
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+		<div class="large-3 medium-3 cell">
+        <ul class="breadcrumbs">
+            <li><a href="{% url 'lecturer_dashboard' %}">Lecturer Dashboard</a></li>
+            <li class="current"><a href="{% url 'lec_view_assignments' %}">View assigments</a></li>
+        </ul>
+            <ul class="collection with-header">
+                <li class="collection-header"><p class="lead">Filter unit</p></li>
+                <a href="{% url 'lec_view_assignments' %}">
+                                <li class="collection-item">
+                                All assigments
+                                </li>
+                            </a>
+                    {% for lecturer in lecturer_details %}
+                        {% for unit in lecturer.lec_units %}
+                            <a href="{% url 'lec_view_assign_by_unit_code' unit %}">
+                                <li class="collection-item">
+                                {{ unit}}
+                                </li>
+                            </a> 
+                        {% endfor %}
+                 {% endfor %}
+            </ul>
+        </div>
+		<div class="large-9 medium-9 cell">
+        {% if assignments %}
+            {% for assignment in assignments %}
+                <div>
+                    <span class="lead">Unit Code: {{assignment.unit_code}}</span>
+                    <span class='float-right'>Due: {{assignment.due_date}}</span>
+                    <p>{{assignment.assign_text |linebreaksbr}} </p>
+                    <ul class="menu">
+                        <li><a href="{% url 'lec_edit_assign' assignment.assign_id  %}">Edit</a></li>
+                        <li><a href="{% url 'lec_assign_details' assignment.assign_id  %}">View</a></li>
+                        <li><a href="{{ assignment.assign_file.url }}">Download assigment file</a></li>
+                        <li class="del_btn" id="{{ assignment.assign_id }}"><a href="#"  style="color:#e71d36">Delete assigment</a></li>
+                    </ul>
+                    <hr>
+                </div>
+            {% endfor %}
+        {% else %}
+        <p class="lead center-align">No assigments</p>
+        {% endif %}
+
+        </div>
+		
+    </div>
+</div>
+{% endblock %}

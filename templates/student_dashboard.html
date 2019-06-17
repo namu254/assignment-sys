@@ -3,13 +3,16 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<div class="below_nav">
+    <h3 class="center-align">Student Dashboard</h3>
+  </div>
 <div class="grid-container">
     <div class="grid-x grid-padding-x grid_whole">
         <div class="large-12 cell grid_current_units">
-            <div class="stu_details">
+            <div class="user_details">
                 <ul class="dropdown menu float-right" data-dropdown-menu>
                     <li>
-                    <a href="#" class='profile_a'>Account</a>
+                    <a href="#" class='profile_a waves-effect waves-light btn-small'>Account</a>
                         <ul class="menu profile_menu">
                             <li><a href="{% url 'select_course' %}">Update profile</a></li>
                             <li><a href="{% url 'student_edit_units' %}">Edit units</a></li>
@@ -18,7 +21,6 @@
                     </li>
                 </ul>
                     {% for student in student_details %}
-                        <span class='lead stu_dashboard'>Student Dashboard </span>
                         <p class="stu_name lead">
                         <span>{{student.full_name|capfirst }},
                         <small>{{ student.adm_no}}</small>
@@ -37,9 +39,23 @@
                 </div>
             </div>
         </div>
-        <div class="large-5 medium-5 cell grid_selection">
-        </div>  
-        <div class="large-7 medium-7 cell grid_units">
+        <p class="actions_title">Student actions</p>
+        <div class="large-12 medium-12 cell grid_actions">
+            <a class="action_container" href="{% url 'student_view_assignments' %}">
+                <p class="center-align">View assignment</p>
+            </a>
+            <a class="action_container" href='#'>
+                <p class="center-align">Reading materials</p>
+            </a>
+            <a class="action_container" href='#'>
+                <p class="center-align">Inquire about missing marks</p>
+            </a>
+            <a class="action_container" href='#'>
+                <p class="center-align">Give feedback to your lectures</p>
+            </a>
+            <a class="action_container" href='#'>
+                <p class="center-align">Find a lecturer</p>
+            </a>
         </div> 
     </div>
 </div>

@@ -3,40 +3,41 @@ Colors
 */
 
 body {
-   background-color: #fdfffc;
-   font-family: 'Lato', sans-serif; 
+   background-color: #fff;
+   font-family: 'Apercu', sans-serif; 
+   color: #011627 !important;
 }
 
 .title-bar{
    background-color: #011627;
    color:#fdfffc;
 
+
 }
-.name{
-   margin-bottom: 0px;
-   letter-spacing: 10px;
-   cursor: pointer;
-   font-weight: bold;
+nav {
+   background-color: #fff;
    
+}
+nav .brand-logo{
+   color: #011627;
+}
+@media screen and (max-width: 480px){
+   nav .brand-logo{
+      font-size: 10px !important;
+   }
 }
 .highlight{
    background-color: #ffeb3b;
    color: black;
    padding: 5px;
 }
-
-.button.primary {
-   border-radius: 3px;
+.btn-small{
    background-color: #2ec4b6;
+   color: white;
 }
-.button.primary:hover{
-   border-radius: 3px;
-   background-color: #2ab3a6;
-}
-.button.primary:visited{
-   border-radius: 3px;
-   background-color: #2ab3a6;
-}
+.waves-button-input {
+   color: #FFF;
+} 
 select{
    border-radius: 3px;
 }
@@ -93,6 +94,7 @@ textarea:focus {
    border: 1px solid #2ec4b6;
    margin: 10px 0px 10px 0px;
 
+
 }
 .center_text{
    position: absolute;
@@ -109,14 +111,14 @@ textarea:focus {
    color: #fff;
    border: none;
 }
-.stu_details{
+.user_details{
    padding: 20px;
    color: #444;
    border-radius: 5px;
-   background-color: #f1f1f1;
+   background-color: #eeeeee;
 }
 .stu_name {
-   font-size: 300%;
+   font-size: 30px;
 }
 .stu_incr{
    font-size: medium;
@@ -139,7 +141,7 @@ textarea:focus {
    background-color: #2ab3a6;
    color: #fff;
 }
-.stu_details p{
+.user_details p{
    margin-bottom: 0px;
 }
 .stu_dashboard{
@@ -252,6 +254,7 @@ textarea:focus {
  .del_lec_unit:hover {
    background-color: #e71d36;
  }
+ 
  .grid_whole_stu{
    border: 1px solid #ccc;
    border-radius: 5px;
@@ -260,11 +263,15 @@ textarea:focus {
  }
  .grid_whole{
    border: 1px solid #ccc;
-   border-radius: 5px;
+   padding-left: 0px;
+   padding-right: 0px;
+   margin-bottom: 30px;
  }
  .grid_current_units{
    background-color: #f1f1f1;
-   border-bottom: 1px solid #ccc;;
+   border-bottom: 1px solid #ccc;
+   margin-bottom: 30px;
+   padding-top: 15px;
  }
  
  .grid_selection{
@@ -279,20 +286,26 @@ textarea:focus {
 .no_parameters{
    text-align: center;
 }
-.grid_services{
-   
-   padding-top: 10px;
+.grid_actions{
+   margin-top: 0px;
+}
+.actions_title{
+   margin: 0.9375rem;
+   padding: 10px;
+   color: #FFF;
+   background-color: #2ec4b6;
 }
 .action_container{
    float: left;
-   width: 20%;
-   height: 100%;
-   margin: 0px 5px 5px 0px ;
-   padding: 0 8px;
+   margin: 0px 20px 20px 0px;
+   padding: 20px;
    border: 1px solid #ccc;
    border-radius: 3px;
    background-color: #f1f1f1;
    color: #444;
+}
+.action_container p {
+   margin-bottom: 0px;
 }
 .action_container:hover{
    background-color: #2ab3a6;
@@ -306,12 +319,76 @@ textarea:focus {
      display: block;
    }
  }
-.action_icons{
-   font-size: 60px;
-   text-align: center;
+.below_nav{
+   padding: 30px;
+   background-color: #2ec4b6;
+   color: #FFF;
+   margin-bottom: 20px;
    
 }
-.action_text{
-   text-align: center;
+.below_nav h3{
+   font-family: 'Apercu', sans-serif;
+   font-size: 25px;
 }
+.alert{
+   color: #e71d36;
+   
+}
+.datepicker-date-display{
+   background-color: #2ec4b6;
+}
+.datepicker-cancel, .datepicker-clear, .datepicker-today, .datepicker-done{
+   color: #2ec4b6;
+}
+.collection{
+   font-family: 'Apercu', sans-serif;
+}
+.collection p{
+   margin-bottom: 0px;
+}
+.collection.with-header .collection-header{
+   background-color: #eeeeee;
+}
+.collection .collection-item.active{
+   background-color: #2ec4b6;
+}
+.collection-item:hover{
+   background-color: #2ec4b6;
+   color: #FFF;
+   cursor: pointer;
+}
+.error p{
+   color: #e71d36;
+}
+.striped th {
+   font-weight: bold;
+}
+.due_date_tag {
+   padding: 0px 10px 0px 10px;
+   background-color: #e71d36;
+   border-radius: 3px;
+   color: #FFF;
+}
+.breadcrumbs .current a{
+   color: #8b8c8a;
+}
+.assign_details{
+   border: 1px solid #ccc;
+   padding: 15px;
+}
+.submitted{
+   padding: 20px;
+   background-color: yellow;
 
+}
+.due_date_passed{
+   padding: 50px 10px;
+   background-color: #e71d36;
+   color: #FFF;
+   width: 100%;
+}
+.assign_submitted{
+   padding: 20px;
+   color: #FFF;
+   background-color: #2ec4b6;
+}

@@ -25,7 +25,7 @@ SECRET_KEY = 'psnnmrge)p!0c1wk^id&3%j@463*n@03!p59rouc@&^#5l^(a%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['46a6fa72.ngrok.io','127.0.0.1']
+ALLOWED_HOSTS = ['ac928826.ngrok.io','127.0.0.1']
 
 
 # Application definition
@@ -139,4 +139,9 @@ os.path.join(BASE_DIR, "static"),
 '/var/www/static/',
 ]
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+
 LOGIN_REDIRECT_URL='/'
+
+USE_L10N = False

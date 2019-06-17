@@ -4,9 +4,10 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse,HttpRequest,Http404
-from .models import Student, Lecturer, Unit, Course
-from .forms import signUpForm, allcourseForm, unitFilterForm
+from .models import Student, Lecturer, Unit, Course, Assignment, Submission
+from .forms import signUpForm, allcourseForm, unitFilterForm, assignmentForm, submissionForm
 from django.contrib.auth.models import User
+import datetime
 # Create your views here.
 
 # test function to redirect users
@@ -41,8 +42,14 @@ def index(request):
 def student_dashboard(request):
   # check if the student has selected a course
   no_course = Student.objects.filter(course__isnull=True,adm_no=request.user)
+  # check if there are no units selected
+  no_units = Student.objects.get(adm_no=request.user)
   if no_course:
     return redirect('select_course')
+  elif len(no_units.units) == 0:
+    print("hello")
+    return redirect('student_edit_units')
+  
   # get the student details
   student_details = Student.objects.filter(adm_no=request.user)
   context = {
@@ -224,12 +231,208 @@ def lecturer_dashboard(request):
 @csrf_protect
 @user_passes_test(lecturer_redirect,login_url='/')
 def give_assignment(request):
+  # Lecture instance
+  staff_no = Lecturer.objects.get(staff_no=request.user)
+  if request.method == "POST":
+    form = assignmentForm(request.POST, request.FILES)
+    if form.is_valid():
+      assign = form.save(commit=False)
+      assign.staff_no = staff_no
+      assign.save()
+      return redirect('lec_view_assignments')
+  else:
+    form = assignmentForm()
+  # lecturer units
+  lecturer_details = Lecturer.objects.filter(staff_no=request.user)
+  
+  context = {
+		'form': form,
+    'lecturer_details': lecturer_details,
+	  }
+  return render(request, 'give_assignment.html', context)
 
-  return render(request, 'give_assignment.html')
+
+
+# view lecturers assignments
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(lecturer_redirect,login_url='/')
+def lec_view_assignments(request):
+  # get the lec instance
+  lec = Lecturer.objects.get(staff_no=request.user)
+  # all the assign under the logined lec
+  assignments = Assignment.objects.filter(staff_no=lec)
+  # lecturer units
+  lecturer_details = Lecturer.objects.filter(staff_no=request.user)
+  context = {
+    'lecturer_details': lecturer_details,
+    'assignments':assignments,
+  }
+
+  return render(request,'lec_view_assignments.html', context)
+
+
+
+# view lecturers assignments by filtering the unit code
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(lecturer_redirect,login_url='/')
+def lec_view_assign_by_unit_code(request, unit_code):
+  # get the lec instance
+  lec = Lecturer.objects.get(staff_no=request.user)
+  # all the assign under the logined lec
+  assignments = Assignment.objects.filter(staff_no=lec,unit_code=unit_code)
+  # lecturer units
+  lecturer_details = Lecturer.objects.filter(staff_no=request.user)
+  context = {
+    'lecturer_details': lecturer_details,
+    'assignments':assignments,
+  }
+
+  return render(request,'lec_view_assign_by_unit_code.html', context)
 
 
 
 
+# the view to help edit units
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(lecturer_redirect,login_url='/')
+def lec_edit_assign(request, assign_id):
+  if request.method == "POST":
+    # get the assignment instances
+    assignment = Assignment.objects.get(assign_id=assign_id)
+    # populated field
+    form = assignmentForm(request.POST, request.FILES, instance=assignment)
+    if form.is_valid():
+      assign = form.save(commit=False)
+      assign.save()
+      return redirect('lec_view_assignments')
+  else:
+    # get the assignment instances
+    assignment = Assignment.objects.get(assign_id=assign_id)
+    # populated field
+    form = assignmentForm(instance=assignment)
+  # lecturer units
+  lecturer_details = Lecturer.objects.filter(staff_no=request.user)
+  context = {
+    'form':form,
+    'lecturer_details': lecturer_details,
+    'assign_id':assign_id,
+  }
+  return render(request,'lec_edit_assign.html', context)
+
+
+# Api for deleting assignments
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(lecturer_redirect,login_url='/')
+def lec_del_assign(request,assign_id):
+  # Lecture instance
+  staff_no = Lecturer.objects.get(staff_no=request.user)
+  assign_to_del = Assignment.objects.get(assign_id=assign_id,staff_no=staff_no)
+  assign_to_del.delete()
+  response = {
+    'deleted':True,
+  }
+  return JsonResponse(response)
+
+
+# Lectures details of the assignments and also the submitted assignments
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(lecturer_redirect,login_url='/')
+def lec_assign_details(request, assign_id):
+  # Lecture instance
+  staff_no = Lecturer.objects.get(staff_no=request.user)
+  # get that assignment detail
+  details = Assignment.objects.get(staff_no=staff_no, assign_id=assign_id)
+  # get the assignments submissions 
+  submissions = Submission.objects.filter(assign_id=details)
+  # check if the due date has passed
+  context = {
+    'assignment_details':details,
+    'submissions':submissions
+  }
+  return render(request,'lec_assign_details.html', context)
+
+
+# view for showing the students assignments
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(student_redirect,login_url='/')
+def student_view_assignments(request):
+  # get the student details 
+  student_details = Student.objects.filter(adm_no=request.user)
+  assignment_list = {}
+  # get the student units
+  units = Student.objects.get(adm_no=request.user)
+  # loop through the student units
+  for unit in units.units:
+    # get the assignments for the currents units add them in a object
+    assignments = Assignment.objects.filter(unit_code=unit)
+    for assignment in assignments:
+      assignment_list[assignment.assign_id] = assignment
+  
+  context = {
+    'assignment_list': assignment_list,
+    'student_details':student_details
+  }
+  return render(request, 'student_view_assignments.html', context)
+
+
+# view for submiting the students assignments
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(student_redirect,login_url='/')
+def student_submit_assignment(request, assign_id):
+  # get the asignments details
+  assignment_details = Assignment.objects.filter(assign_id=assign_id)
+  # assignment instance
+  assignment = Assignment.objects.get(assign_id=assign_id)
+  # check if the due date is passed
+  if assignment.due_date < datetime.date.today():
+    due_date_passed = True
+  else:
+    due_date_passed = False
+  # student instance
+  student = Student.objects.get(adm_no=request.user)
+  if request.method == "POST":
+    try:
+      # submission instance
+      submission = Submission.objects.get(assign_id=assignment)
+      # populate the fields/on update
+      form = submissionForm(request.POST, request.FILES, instance=submission)
+      submitted = True
+    except Submission.DoesNotExist:
+      form = submissionForm(request.POST, request.FILES)
+      submitted = False
+    if form.is_valid:
+      assign = form.save(commit=False)
+      assign.assign_id = assignment
+      assign.adm_no = student
+      assign.save()
+      return redirect('student_view_assignments')
+  else:
+    try:
+      # submission instance
+      submission = Submission.objects.get(assign_id=assignment)
+      submitted = True
+      # populate the fields
+      form = submissionForm(instance=submission)
+    except Submission.DoesNotExist:
+      form = submissionForm()
+      submitted = False
+
+  context = {
+    'assignment_details': assignment_details,
+    'form':form,
+    'assign_id':assign_id,
+    'submitted':submitted,
+    'due_date_passed': due_date_passed,
+  }
+  
+  return render(request, 'student_submit_assignment.html', context)
 # view for signing new users
 def sign_up(request):
     if request.method == "POST":

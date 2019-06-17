@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="below_nav">
+    <h3 class="center-align">Assignment details / Submitted assignments</h3>
+  </div>
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="large-5 medium-5 cell">
+        <ul class="breadcrumbs">
+            <li><a href="{% url 'lecturer_dashboard' %}">Lecturer Dashboard</a></li>
+            <li class="current"><a href="#">View assigments</a></li>
+        </ul> 
+        <div class='assign_details align-self-middle'>
+        <h4 class='center-align'>Assigment Details</h4>
+        
+            <p>Unit Code: {{ assignment_details.unit_code }}</p>
+            <p>{{ assignment_details.assign_text }}</p>
+            <p>Date Created: {{ assignment_details.date_created }}</p>
+            <p>Due Date:  {{ assignment_details.due_date }}</p>
+            <p>Assigment File: <a href="{{ assignment_details.assign_file.url }}">Download</a></p>
+        
+        </div>     
+      </div>	
+      <div class="large-7 medium-7 cell">
+        <p class="assign_submitted">Number of assigments submitted: {{ submissions.count }}</p>   
+        <table>
+          <thead>
+            <tr>
+              <th>Student Name</td>
+              <th>Adm No</td>
+              <th>Date Submitted</td>
+              <th>Assigment File</td>
+            </tr>
+          </thead>
+          <tbody>
+          
+          {% for submission in submissions %}
+            <tr>
+                <td>{{ submission.adm_no.full_name }}</td>
+                <td> {{ submission.adm_no.adm_no }} </td>
+                <td> {{ submission.date_submitted}} </td>
+                <td><a href="{{ submission.assign_file.url }}">Download</a></td>
+            </tr>
+          {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+{% endblock %}

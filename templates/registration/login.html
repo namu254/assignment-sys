@@ -8,13 +8,16 @@
     </script>
 {% else %}
     {% load crispy_forms_tags %}
+	<div class="below_nav">
+    <h3 class="center-align">Log in to your account</h3>
+  </div>
   <div class="grid-container">
     <div class="grid-x grid-padding-x">
-		<div class="float-center">
+		<div class="float-center" style="width: 30%">
 		<form method="post" action="{% url 'login' %}">
 		{% csrf_token %}
 		{{ form|crispy }}
-		<input type="submit" class="button primary small float-center" value="login" style="width: 100%">
+		<input type="submit" class="btn-small float-center" value="login" style="width: 100%">
 		<input type="hidden" name="next" value="{{next}}">
 
 		<p><a href="{% url 'password_reset' %}">Forgot password?</a></p>

@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
 {% block content %}
-
+<div class="below_nav">
+    <h3 class="center-align">Unit selection</h3>
+  </div>
 <div class="grid-container">
     <div class="grid-x grid-padding-x grid_whole">
+    
         <div class="large-12 cell grid_current_units">
+        <ul class="breadcrumbs">
+            <li><a href="{% url 'lecturer_dashboard' %}">Lecturer Dashboard</a></li>
+            <li class="current"><a href="{% url 'lecturer_edit_units' %}">Edit Units</a></li>
+        </ul>
             <div class="lec_units_section">
             <p class='lead'>Selected units</p>
                 <div class="lec_units">
@@ -28,7 +35,7 @@
         <form method="post" action="" class="get_units">
 		{% csrf_token %}
 		{{ form|crispy }}
-		<input type="submit" class="button primary small float-center" value="Get units" style="width: 100%">
+		<input type="submit" class="btn-small float-center" value="Get units" style="width: 100%;margin-bottom:15px">
 
         </div>
         <div class="large-7 medium-7 cell grid_units">
@@ -38,7 +45,7 @@
         </div>
         
 	</div>
-    <a href="{% url 'lecturer_dashboard' %}" class="button primary float-right" style="margin-top:10px">Done</a>
+    <a href="{% url 'lecturer_dashboard' %}" class="btn-small float-right" style="margin-top:30px;margin-bottom: 30px;width:10%">Done</a>
 </div>
 </div>
 {% endblock %}

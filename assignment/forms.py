@@ -1,6 +1,7 @@
 from django import forms
-from django.forms import ModelForm
-from .models import Course
+from django.forms import ModelForm, TextInput
+from .models import Course, Assignment, Submission
+from django.utils.translation import gettext_lazy as _
 # Form to handle the sign up 
 class signUpForm(forms.Form):
 	username = forms.CharField(label='Username (Adm Number or Staff Number)')
@@ -49,4 +50,17 @@ class unitFilterForm(forms.Form):
 	course = forms.ModelChoiceField(queryset=Course.objects.all())
 	year = forms.ChoiceField(choices=Year_choices)
 	semester = forms.ChoiceField(choices=Semester_choices)
-	
+
+class assignmentForm(ModelForm):
+	class Meta:
+		model = Assignment
+		fields = ['unit_code', 'due_date', 'assign_text', 'assign_file']
+		widgets = {
+            'due_date': TextInput(attrs={'id': 'datepicker'}),
+			'unit_code': TextInput(attrs={'readonly': 'readonly','placeholder':'Select the unit code on your left.'}),
+        }
+
+class submissionForm(ModelForm):
+	class Meta:
+		model = Submission
+		fields = ['assign_file',]

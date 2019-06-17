@@ -32,13 +32,24 @@ $.ajaxSetup({
   //like script
 
 $(document).ready(function(){
-
-  // $('#datepicker').datepicker();
+  $('select').formSelect();
+  $('#datepicker').datepicker();
   // var date = $('#datepicker').val();
   // console.log(date);
+  if (top.location.pathname === "/lecturer_dashboard"){
+    M.toast({html:'logged in',classes:''})
+  }
+  // moment js
+  $('.due_date').each(function(index){
+    var date = $(this).text();
+    var due_date = moment(date,'MMMM Do, YYYY').fromNow();
+    // change the date
+    $(this).text(due_date);
+  });
 
   $('.name').click(function(event){
-    window.location ="/";
+    M.toast({html: 'I am a toast!',classes:'red'})
+    console.log('data');
   })
 
 
@@ -51,8 +62,7 @@ $('.sign_up').on('submit', function(event){
   var password = $('#id_password').val();
 
   console.log(username, email, password);
-  $('.response').css("background-color", "#000000");
-  $('.response').text("Creating account...");
+  M.toast({html: "Creating account...",classes:''});
   $.ajax({
     url: '/sign_up',
     type: 'POST',
@@ -64,26 +74,23 @@ $('.sign_up').on('submit', function(event){
       $("#id_password").val('');
       if(data.not_created){
         $('#id_username').css("border", "1px solid #e71d36");
-        $('.response').css({"background-color":"#e71d36","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-        $('.response').text("Contact the ICT department");
+        M.toast({html: "Contact the ICT department",classes:'red'});
       } else if (data.created){
         $('#id_username').css("border", "1px solid #4CAF50");
-        $('.response').css({"background-color":"#2ec4b6","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-        $('.response').html("Your account has been created. <a href='accounts/login/' style='color: white;text-decoration: underline'>You need to login now</a>");
+        M.toast({html: "Your account has been created. <a href='accounts/login/' style='color: white;text-decoration: underline'>You need to login now</a>",classes:''});
+
         window.setTimeout(reload_page, 5000);
         function reload_page() {
             window.location = "/accounts/login/";
           }
       } else if (data.user_exists){
         $('#id_username').css("border", "1px solid #e71d36");
-        $('.response').css({"background-color":"#e71d36","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-        $('.response').text("You already have an account... Please login.");
+        M.toast({html: "You already have an account... Please login.",classes:''});
       }
     },
     error:function(xhr,errmsg,err){
       console.log(errmsg,err)
-      $('.response').css({"background-color":"#e71d36","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-      $('.response').text(err);
+      M.toast({html: "Can't create an account",classes:''});
     }
   });
 });
@@ -135,8 +142,7 @@ $('.unit_container').click(function(){
   }
   selected = user_units.length;
   console.log(user_units)
-  $('.response').css("background-color", "#ff9f1c");
-  $('.response').text(selected + " units selected" );
+  M.toast({html: selected + " units selected",classes:''});
 });
 
 
@@ -146,16 +152,14 @@ var $modal = $('#modal');
 $('.save_changes').click(function(){
   var final = user_units;
   console.log(final)
-  $('.response').css("background-color", "#000000");
-  $('.response').text("Updating unit...");
+  M.toast({html: "Updating unit...",classes:''});
   $.ajax({
   url: '/student_edit_units',
   type: 'POST',
   data: {'data':final},
   success:function(data){
     if(data.changes_saved){
-      $('.response').css({"background-color":"#2ec4b6","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-        $('.response').text(selected + " Units saved");
+      M.toast({html: selected + " Units saved",classes:''});
     }
     window.setTimeout(reload_page, 1000);
       function reload_page() {
@@ -163,15 +167,16 @@ $('.save_changes').click(function(){
         } 
   },
   error:function(xhr,errmsg,err){
-    $('.response').css({"background-color":"#e71d36","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-      $('.response').text(err);
+    M.toast({html: "Cannot save units, Try Again",classes:'red'});
     }
 })
 });
 
+
 // handle lec units api
 $('.get_units').on('submit', function(event){
   event.preventDefault();
+  
   $('.all_units').empty();
   // get the api values
   var course = $('#id_course').val();
@@ -184,8 +189,12 @@ $('.get_units').on('submit', function(event){
     type: 'POST',
     success:function(data){
       if (data.no_units){
-        $('.all_units').append("<p class='no_parameters'>No units Found</p>"); 
+        $('.all_units').append("<p class='no_parameters'>No units Found</p>");
+        M.toast({html: 'No units found!',classes:'red'});
+
       } else {
+        var count = Object.keys(data).length;
+        M.toast({html: count +' units found!',classes:''});
         for (const unit_code in data) {
           if (data.hasOwnProperty(unit_code)) {
             const element = data[unit_code];
@@ -204,27 +213,25 @@ $('.get_units').on('submit', function(event){
 // add units to the lec model
 $(document).on('click', '.lec_unit_details', function(){
   var course_code = this.id;
+  
   $.ajax({
     url: '/lecturer_add_units',
     type: 'POST',
     data: {course_code ,course_code},
     success:function(data){
       if(data.saved){
-        $('.response').css({"background-color":"#2ec4b6","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-        $('.response').text(course_code + " Unit saved");
+        M.toast({html: course_code + " Unit saved",classes:''});
         $('.lec_units').empty();
         data.lec_units.forEach(unit => {
           $('.lec_units').append("<div class='unit_chip'>"+unit+"<span class='del_lec_unit' id='"+unit+"'>&times;</span></div>")
         });
         
       } else {
-        $('.response').css({"background-color":"#e71d36","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-        $('.response').text(course_code + " Unit already exists");
+        M.toast({html: course_code + " Unit already exists",classes:'red'});
       }
     },
     error:function(xhr,errmsg,err){
-        $('.response').css({"background-color":"#e71d36","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-        $('.response').text(err);
+      M.toast({html: 'Cannot save unit',classes:'red'});
       }
   })
 });
@@ -232,15 +239,13 @@ $(document).on('click', '.lec_unit_details', function(){
 //remove units from the lec model
 $(document).on('click', '.del_lec_unit', function(){
   var course_code= this.id;
-
   $.ajax({
     url: '/lecturer_remove_units',
     type: 'POST',
     data: {course_code ,course_code},
     success:function(data){
       if(data.removed){
-        $('.response').css({"background-color":"#e71d36","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-        $('.response').text(course_code + " Unit Removed");
+        M.toast({html: course_code + " Unit Removed",classes:'red'});
         $('.lec_units').empty();
         data.lec_units.forEach(unit => {
           $('.lec_units').append("<div class='unit_chip'>"+unit+"<span class='del_lec_unit' id='"+unit+"'>&times;</span></div>")
@@ -248,13 +253,35 @@ $(document).on('click', '.del_lec_unit', function(){
       }
     },
     error:function(xhr,errmsg,err){
-        $('.response').css({"background-color":"#e71d36","box-shadow": "0px 2px 3px 0px rgba(47,64,78,0.75)"});
-        $('.response').text(err);
+      M.toast({html: 'Cannot remove unit',classes:'red'});
       }
   })
-
 });
 
+// lec give assignments
+$('.collection-item').click(function(){
+  $('.collection-item.active').removeClass('active');
+  $(this).addClass('active');
+  var unit_code = $(this).text();
+  $( "#id_unit_code" ).val(unit_code);
+});
+
+// delete assign action
+$('.del_btn').on("click", function(){
+  var id = this.id;
+  if (confirm("You are about to delete an assignment.\nClick the OK to confirm")) {
+    $.ajax({
+      url: '/lec_del_assign/'+id+'/',
+      type: 'POST',
+      success:function(data){
+        if(data.deleted){
+          M.toast({html:"Assignment Removed",classes:'red'});
+          window.location = "/lec_view_assignments";
+        }
+      }
+    })
+  } 
+});
 
 
 

@@ -4,6 +4,7 @@
   <head>
     <meta charset="utf-8" />
     <meta http-equiv="x-ua-compatible" content="ie=edge">
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
@@ -12,11 +13,14 @@
     <link rel="icon" type="image/png" sizes="16x16" href="{% static 'img/favicon-16x16.png' %}">
     
     <title>SLS</title>
+    <link rel="stylesheet" href="{% static 'css/materialize.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/foundation.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/foundation-icons.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    
     <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet">
+    
   </head>
 
   <style type="text/css">
@@ -26,6 +30,12 @@
    font-style: normal;
    font-weight: bold; 
    src: url('{% static "fonts/Lato-Bold.ttf" %}') format('truetype');
+}
+@font-face{
+   font-family: 'Apercu';
+   font-style: normal;
+   font-weight: bold; 
+   src: url('{% static "fonts/Apercu Pro Medium.otf" %}') format('truetype');
 }
 @font-face {
   font-family: "foundation-icons";
@@ -48,6 +58,11 @@
 <script src="{% static 'js/jquery.cookie.js' %}"></script>
 <script src="{% static 'js/custom.js' %}"></script>
 <script src="{% static 'js/foundation.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/materialize.min.js' %}"></script>
+<script src="{% static 'js/moment.min.js' %}"></script>
+<script>
+  moment().format();
+</script>
 <script>
   $(document).foundation();
 </script>

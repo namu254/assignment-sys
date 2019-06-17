@@ -16,6 +16,9 @@ Including another URLconf
 from django.contrib import admin,auth
 from django.urls import path, include
 from assignment import views
+from django.conf.urls.static import static
+from django.conf import settings
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -32,4 +35,12 @@ urlpatterns = [
     path('lecturer_add_units', views.lecturer_add_units, name='lecturer_add_units'),
     path('lecturer_remove_units', views.lecturer_remove_units, name='lecturer_remove_units'),
     path('give_assignment', views.give_assignment, name='give_assignment'),
-]
+    path('lec_view_assignments', views.lec_view_assignments, name='lec_view_assignments'),
+    path('student_view_assignments', views.student_view_assignments, name='student_view_assignments'),
+    path('student_submit_assignment/<uuid:assign_id>/', views.student_submit_assignment, name='student_submit_assignment'),
+    path('lec_view_assign_by_unit_code/<str:unit_code>/', views.lec_view_assign_by_unit_code, name='lec_view_assign_by_unit_code'),
+    path('lec_edit_assign/<uuid:assign_id>/', views.lec_edit_assign, name='lec_edit_assign'),
+    path('lec_del_assign/<uuid:assign_id>/', views.lec_del_assign, name='lec_del_assign'),
+    path('lec_assign_details/<uuid:assign_id>/', views.lec_assign_details, name='lec_assign_details'),
+    
+]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

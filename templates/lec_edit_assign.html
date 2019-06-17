@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="below_nav">
+    <h3 class="center-align">Edit an assigment</h3>
+  </div>
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+		<div class="large-4 medium-4 cell">
+    <ul class="breadcrumbs">
+            <li><a href="{% url 'lecturer_dashboard' %}">Lecturer Dashboard</a></li>
+            <li><a href="{% url 'lec_view_assignments' %}">View assigments</a></li>
+            <li class="current"><a href="#">Edit assigment</a></li>
+        </ul>
+      <ul class="collection with-header">
+        <li class="collection-header"><p class="lead">Select the unit</p></li>
+					{% for lecturer in lecturer_details %}
+              {% for unit in lecturer.lec_units %}
+							<li class="collection-item">{{ unit}}</li>
+              {% endfor %}
+          {% endfor %}
+      </ul>
+    </div>
+		<div class="large-8 medium-8 cell">
+      <div class="float-center" style="width: 70%">
+				<p class="lead">Edit the assigment details</p>
+				<form method="post" action="{% url 'lec_edit_assign' assign_id %}" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{ form|crispy }}
+        <input type="submit" class="btn-small float-center" value="Update assigment" style="width: 100%;margin-bottom:40px">
+			</div>      
+    </div>
+		
+</div>
+</div>
+{% endblock %}

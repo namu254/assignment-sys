@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="below_nav">
+    <h3 class="center-align">Submit assigment</h3>
+  </div>
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+		<div class="large-6 medium-6 cell">
+        <ul class="breadcrumbs">
+            <li><a href="{% url 'student_dashboard' %}">Student Dashboard</a></li>
+            <li><a href="{% url 'student_view_assignments' %}">View Assigments</a></li>
+            <li class="current"><a href="#">Submit assigment</a></li>
+        </ul>
+        <div class='assign_details align-self-middle'>
+        <h4 class='center-align'>Assigment Details</h4>
+        {% for assignment in assignment_details  %}
+            <p>Unit Code: {{ assignment.unit_code }}</p>
+            <p>{{ assignment.assign_text }}</p>
+            <p>Given by: <a href="#">{{assignment.staff_no.full_name}}</a></p>
+            <p>Date Given: {{ assignment.date_created }}</p>
+            <p>Due Date:  {{ assignment.due_date }}</p>
+            <p>Assigment File: <a href="{{ assignment.assign_file.url }}">Download</a></p>
+        {% endfor %}
+        </div>
+        </div>
+		<div class="large-5 medium-5 cell">
+            {% if due_date_passed %}
+                <p class="due_date_passed lead">The Due date has passed<br>Contact your lecturer for further assitance.<p>
+            {% else %}
+                {% if submitted %}
+                    <p class="submitted">You've already submitted this assigment<br>Time is not yet up, you can still update it below</p>
+                {% endif %}
+                <div class="float-center" style="width: 100%">
+                    <p class="lead">Upload the assign file below</p>
+                    <form method="post" action="{% url 'student_submit_assignment' assign_id %}" enctype="multipart/form-data">
+                    {% csrf_token %}
+                    {{ form|crispy }}
+                    <input type="submit" class="btn-small float-center" value="Submit assigment" style="width: 100%;margin-bottom:40px">
+                </div>
+            {% endif %}
+        
+        </div>
+		
+    </div>
+</div>
+{% endblock %}
