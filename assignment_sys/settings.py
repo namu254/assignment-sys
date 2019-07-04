@@ -26,7 +26,7 @@ SECRET_KEY = 'psnnmrge)p!0c1wk^id&3%j@463*n@03!p59rouc@&^#5l^(a%'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['192.168.43.28','127.0.0.1']
+ALLOWED_HOSTS = ['192.168.43.28','127.0.0.1','uoeblackboard']
 
 
 # Application definition
