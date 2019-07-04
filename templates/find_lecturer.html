@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+{% load static %}
+<div class="below_nav">
+    <h3 class="center-align">Find a lecturer</h3>
+  </div>
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+		<div class="large-8 medium-8 cell large-offset-2">
+            <ul class="breadcrumbs">
+                <li><a href="{% url 'student_dashboard' %}">Student Dashboard</a></li>
+                <li class="current"><a href="{% url 'find_lecturer' %}">Find a lecturer</a></li>
+            </ul>
+            <div class="float-center" style="width: 90%">
+             
+                <form action="{% url 'find_lecturer' %}" method="post" class="find_lecturer">
+                {% csrf_token %}
+                <input type="search" placeholder="Search using Lecture name or Unit code e.g COM 300" name="q" autofocus id="q">
+                <input type="submit" class="btn float-center" value="Search"></input>
+                </form>
+            </div> 
+        </div>
+
+        <div class="large-10 medium-10 cell large-offset-1">
+        <div class="float-center" style="width: 90%" id="search_results">
+        <p>Enter search tag</p>
+        </div>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -3,17 +3,39 @@
 {% block content %}
 <div class="below_nav">
     <h3 class="center-align">Upadate your profile</h3>
-  </div>
+</div>
 <div class="grid-container">
     <div class="grid-x grid-padding-x">
-		<div class="float-center" style='width: 40%'>
-    <p class="lead">Select the course, sememster and year of your study.</p>
-		<form method="post" action="{% url 'select_course' %}">
-		{% csrf_token %}
-		{{ form|crispy }}
-        <input type="submit" 
-        class="btn-small float-center" value="Submit" style="width: 100%">
-	</div>
-</div>
+        <div class="large-6 medium-6 medium-offset-3 cell large-offset-3">
+                <ul class="breadcrumbs">
+                    <li><a href="{% url 'student_dashboard' %}">Student Dashboard</a></li>
+                    <li class="current"><a href="{% url 'select_course' %}">Update profile</a></li>
+                </ul>
+            <div class="float-center" style='width: 80%'>
+
+                {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                            <div class="callout success small" data-closable="slide-out-right">
+                            <p>{{ message }}</p>
+                            <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                            <span aria-hidden="true">&times;</span>
+                            </button>
+                            </div>
+                    </li>
+                    {% endfor %}
+                </ul>
+                {% endif %}
+
+                <p class="lead">Select the course, sememster and year of your study.</p>
+                <form method="post" action="{% url 'select_course' %}">
+                {% csrf_token %}
+                {{ form|crispy }}
+                <input type="submit" class="btn-small float-center" value="Submit" style="width: 100%">
+        </div>
+
+	    </div>
+    </div>
 </div>
 {% endblock %}

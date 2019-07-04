@@ -12,7 +12,8 @@
   </div>
      <div class="grid-container">
     <div class="grid-x grid-padding-x">
-		<div class="float-center">
+		<div class="large-6 medium-6 medium-offset-3 cell large-offset-3">
+		<div class="float-center" style="width: 60%">
 			{% load crispy_forms_tags %}
 			<form method="post" action="{% url 'sign_up' %}" class="sign_up">
 			{% csrf_token %}
@@ -20,6 +21,7 @@
 			<!-- {{ profile_form|crispy }} -->
 			<input type="submit" class="btn-small float-center" value="Sign Up" style="width: 100%">
 			<p><a href="{% url 'login' %}">Login?</a></p>
+		</div>
 		</div>
 	</div>
 </div>

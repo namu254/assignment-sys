@@ -68,6 +68,7 @@ class Lecturer(models.Model):
     staff_no = models.CharField(max_length=50, primary_key=True)
     full_name = models.CharField(max_length=200)
     lec_units =  ArrayField(models.CharField(max_length=200), blank=True, null=True)
+    
     def __str__(self):
         return self.staff_no
 
@@ -88,3 +89,10 @@ class Submission(models.Model):
     adm_no = models.ForeignKey(Student, on_delete=models.CASCADE)
     assign_file = models.FileField(upload_to='assignments/%Y/%m/%d/')
     date_submitted = models.DateField(auto_now_add=True)
+
+class Material(models.Model):
+    staff_no = models.ForeignKey(Lecturer, on_delete=models.CASCADE)
+    date_given = models.DateField(auto_now_add=True)
+    material_file = models.FileField(upload_to='materials/%Y/%m/%d/')
+    unit_code = models.CharField(max_length=200)
+    description = models.TextField(max_length=800)

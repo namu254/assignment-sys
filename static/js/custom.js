@@ -36,9 +36,9 @@ $(document).ready(function(){
   $('#datepicker').datepicker();
   // var date = $('#datepicker').val();
   // console.log(date);
-  if (top.location.pathname === "/lecturer_dashboard"){
-    M.toast({html:'logged in',classes:''})
-  }
+  // if (top.location.pathname === "/lecturer_dashboard"){
+  //   M.toast({html:'logged in',classes:''})
+  // }
   // moment js
   $('.due_date').each(function(index){
     var date = $(this).text();
@@ -284,6 +284,35 @@ $('.del_btn').on("click", function(){
 });
 
 
+$('.find_lecturer').on('submit', function(event){
+  event.preventDefault();
+  var q = $('#q').val();
+
+  $.ajax({
+    url: '/find_lecturer',
+    type: 'POST',
+    data: {q ,q},
+      success:function(data){
+        console.log(data)
+        $('#search_results').empty();
+        var count = Object.keys(data).length;
+        if (count >= 2){
+          M.toast({html: count +' Lecturers found',classes:''});
+        } else if(count == 0){
+          $('#search_results').append('No Lecturers found');
+          M.toast({html: 'No Lecturers found',classes:'red'});
+        } else if(count == 1){
+          M.toast({html: count +' Lecturer found',classes:''});
+        }
+        for (const lec in data) {
+          if (data.hasOwnProperty(lec)) {
+            const element = data[lec];
+            $('#search_results').append('<div class="lec_container"><img src="static/img/avatar.png" class="float-center" alt="profile" width="100" height="100"><p>'+element.name+'</p><br><a href="tel:+1-303-499-7111" class="btn btn-flat btn-call">CALL</a><a href="mailto:someone@example.com" target="_top"class="float-right btn btn-flat btn-email">Email</a></div>') 
+          }
+        }
+      }
+  })
+});
 
 });
 

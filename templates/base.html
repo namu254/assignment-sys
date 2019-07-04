@@ -6,7 +6,6 @@
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#000000">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="32x32" href="{% static 'img/favicon-32x32.png' %}">
@@ -18,9 +17,27 @@
     <link rel="stylesheet" href="{% static 'css/foundation-icons.css' %}"/>
     <link rel="stylesheet" href="{% static 'css/app.css' %}">
     <link rel="stylesheet" href="{% static 'css/jquery-ui.css' %}">
+    <script src="{% static 'js/install.js' %}"></script>
     
     <link href="https://fonts.googleapis.com/css?family=Lato:700" rel="stylesheet">
     
+    
+
+    <link rel="manifest" href="{% static '/manifest.json' %}">
+        <!-- register service worker -->
+        <script>
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', () => {
+            navigator.serviceWorker.register("{% static 'js/service-worker.js' %}")
+                .then((reg) => {
+                  console.log('Service worker registered.', reg);
+                });
+          });
+        }
+  
+        </script> 
+    <!-- end of service worker -->
+
   </head>
 
   <style type="text/css">
@@ -50,9 +67,12 @@
   </style>
 <body>
   {% include "top-bar.html" %}
+  
 {% block content %}
 {% endblock %}
 
+{% comment %} Install js {% endcomment %}
+<script src="{% static 'js/install.js' %}"></script>
 <script src="{% static 'js/jquery-3.3.1.min.js' %}"></script>
 <script src="{% static 'js/jquery-ui.js' %}"></script>
 <script src="{% static 'js/jquery.cookie.js' %}"></script>

@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+
+<div class="below_nav">
+    <h3 class="center-align">Reading materials</h3>
+  </div>
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+      <div class="large-3 medium-3 cell">
+        <ul class="breadcrumbs">
+            <li><a href="{% url 'lecturer_dashboard' %}">Lecturer Dashboard</a></li>
+            <li class="current"><a href="#">View reading materials</a></li>
+        </ul> 
+        <a class="action_container" href="{% url 'give_materials' %}">
+                <p class="center-align">Give reading materials</p>
+            </a>
+      </div>	
+      <div class="large-9 medium-9 cell"> 
+        <table>
+          <thead>
+            <tr>
+              <th>Unit code</td>
+              <th>Description</td>
+              <th>Date given</td>
+              <th>File</td>
+            </tr>
+          </thead>
+          <tbody>
+          
+          {% for material in materials %}
+            <tr>
+                <td>{{ material.unit_code }}</td>
+                <td>{{ material.description }}</td>
+                <td>{{ material.date_given }}</td>
+                <td><a href="{{ material.material_file.url }}">Download</a></td>
+            </tr>
+          {% endfor %}
+            
+          </tbody>
+        </table>
+      </div>
+    </div>
+</div>
+{% endblock %}

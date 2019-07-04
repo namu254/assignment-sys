@@ -13,6 +13,20 @@
             <li><a href="{% url 'student_view_assignments' %}">View Assigments</a></li>
             <li class="current"><a href="#">Submit assigment</a></li>
         </ul>
+        {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                    <div class="callout success small" data-closable="slide-out-right">
+                    <p>{{ message }}</p>
+                    <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                    <span aria-hidden="true">&times;</span>
+                    </button>
+                    </div>
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
         <div class='assign_details align-self-middle'>
         <h4 class='center-align'>Assigment Details</h4>
         {% for assignment in assignment_details  %}
@@ -26,6 +40,7 @@
         </div>
         </div>
 		<div class="large-5 medium-5 cell">
+
             {% if due_date_passed %}
                 <p class="due_date_passed lead">The Due date has passed<br>Contact your lecturer for further assitance.<p>
             {% else %}
@@ -40,9 +55,7 @@
                     <input type="submit" class="btn-small float-center" value="Submit assigment" style="width: 100%;margin-bottom:40px">
                 </div>
             {% endif %}
-        
         </div>
-		
     </div>
 </div>
 {% endblock %}

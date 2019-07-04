@@ -9,8 +9,24 @@
 		<div class="large-3 medium-3 cell">
     <ul class="breadcrumbs">
             <li><a href="{% url 'lecturer_dashboard' %}">Lecturer Dashboard</a></li>
+             <li><a href="{% url 'lec_view_assignments' %}">View assigments</a></li>
             <li class="current"><a href="{% url 'give_assignment' %}">Give assigment</a></li>
         </ul>
+        
+         {% if messages %}
+      <ul class="messages">
+          {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                  <div class="callout success small" data-closable="slide-out-right">
+                  <p>{{ message }}</p>
+                  <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                  </div>
+          </li>
+          {% endfor %}
+      </ul>
+      {% endif %}
       <ul class="collection with-header">
         <li class="collection-header"><p class="lead">Select the unit</p></li>
 					{% for lecturer in lecturer_details %}
@@ -19,9 +35,14 @@
               {% endfor %}
           {% endfor %}
       </ul>
+          <a class="action_container" href="{% url 'lec_view_assignments' %}">
+                <p class="center-align">View assignments</p>
+            </a>
     </div>
 		<div class="large-9 medium-9 cell">
+
       <div class="float-center" style="width: 70%">
+     
 				<p class="lead">Enter the assigment details</p>
 				<form method="post" action="{% url 'give_assignment' %}" enctype="multipart/form-data">
 				{% csrf_token %}

@@ -12,7 +12,10 @@
             <div class="user_details">
                 <ul class="dropdown menu float-right" data-dropdown-menu>
                     <li>
-                    <a href="#" class='profile_a waves-effect waves-light btn-small'>Account</a>
+                    <a href="#" class='profile_a'>
+                        <img src="{% static 'img/avatar.png' %}" alt="profile" width="50" height="50">
+                        Profile
+                    </a>
                         <ul class="menu profile_menu">
                             <li><a href="{% url 'select_course' %}">Update profile</a></li>
                             <li><a href="{% url 'student_edit_units' %}">Edit units</a></li>
@@ -30,7 +33,9 @@
                         <p class="stu_incr lead">Year:{{student.year}} Semester:{{ student.semester }}</p>
                     {% endfor %}
                 <div class="stu_curr_units">
-                    <p class='lead' style='margin-bottom: 10px;'>Selected units</p>
+                    <p class='lead' style='margin-bottom: 10px;'>Your selected units
+                    <small><a href="{% url 'student_edit_units' %}">Edit</a></small>
+                    </p>
                     {% for student in student_details %}
                     {% for unit in student.units %}
                         <p class="stu_unit">{{ unit}}</p>
@@ -44,16 +49,11 @@
             <a class="action_container" href="{% url 'student_view_assignments' %}">
                 <p class="center-align">View assignment</p>
             </a>
-            <a class="action_container" href='#'>
+            
+            <a class="action_container" href="{% url 'student_view_materials' %}">
                 <p class="center-align">Reading materials</p>
             </a>
-            <a class="action_container" href='#'>
-                <p class="center-align">Inquire about missing marks</p>
-            </a>
-            <a class="action_container" href='#'>
-                <p class="center-align">Give feedback to your lectures</p>
-            </a>
-            <a class="action_container" href='#'>
+            <a class="action_container" href="{% url 'find_lecturer' %}">
                 <p class="center-align">Find a lecturer</p>
             </a>
         </div> 

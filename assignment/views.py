@@ -4,10 +4,13 @@ from django.contrib.auth.decorators import login_required
 from django.views.decorators.csrf import csrf_protect, ensure_csrf_cookie
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse,HttpRequest,Http404
-from .models import Student, Lecturer, Unit, Course, Assignment, Submission
-from .forms import signUpForm, allcourseForm, unitFilterForm, assignmentForm, submissionForm
+from .models import Student, Lecturer, Unit, Course, Assignment, Submission,Material
+from .forms import signUpForm, updateprofileForm, unitFilterForm, assignmentForm, submissionForm, materialForm
 from django.contrib.auth.models import User
 import datetime
+from django.contrib import messages
+from django.urls import reverse
+from django.db.models import Q
 # Create your views here.
 
 # test function to redirect users
@@ -17,6 +20,13 @@ def student_redirect(user):
 def lecturer_redirect(user):
   return Lecturer.objects.filter(staff_no=user).exists()
 
+
+
+
+# landing page
+def landing(request):
+
+  return render(request, 'landing_page.html')
 
 # Index page redirect
 @login_required(login_url='login')
@@ -63,21 +73,22 @@ def student_dashboard(request):
 @csrf_protect
 @user_passes_test(student_redirect,login_url='/')
 def select_course(request):
+  student = Student.objects.get(adm_no=request.user)
   if request.method == "POST":
-    form = allcourseForm(request.POST)
+    form = updateprofileForm(request.POST, instance=student)
     if form.is_valid():
-      course = form.cleaned_data['course']
-      year = form.cleaned_data['year']
-      # get the course intance
-      course = Course.objects.get(course_name=course)
       student = Student.objects.get(adm_no=request.user)
       # reset the units to empty
-      student.units = []
-      student.course = course
-      student.year = year
-      student.save()
-      return redirect('student_edit_units')
-  form = allcourseForm()
+      updates = form.save(commit=False)
+      updates.units = []
+      updates.save()
+      messages.success(request, 'Profile updated successfully')
+      return redirect('select_course')
+    else:
+       messages.error(request, 'Error updating profile')
+       return redirect('select_course')
+  
+  form = updateprofileForm(instance=student)
   context = {
     'form': form
   }
@@ -239,7 +250,11 @@ def give_assignment(request):
       assign = form.save(commit=False)
       assign.staff_no = staff_no
       assign.save()
-      return redirect('lec_view_assignments')
+      messages.success(request, 'Assignment submitted successfully')
+      return redirect('give_assignment')
+    else:
+       messages.error(request, 'Error submitting assignment')
+       return redirect('give_assignment')
   else:
     form = assignmentForm()
   # lecturer units
@@ -251,6 +266,35 @@ def give_assignment(request):
 	  }
   return render(request, 'give_assignment.html', context)
 
+
+# allow the lecturer to give reading materials to students to students 
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(lecturer_redirect,login_url='/')
+def give_materials(request):
+    # Lecture instance
+  staff_no = Lecturer.objects.get(staff_no=request.user)
+  if request.method == "POST":
+    form = materialForm(request.POST, request.FILES)
+    if form.is_valid():
+      material = form.save(commit=False)
+      material.staff_no = staff_no
+      material.save()
+      messages.success(request, 'You have successfully given your students reading materials')
+      return redirect('give_materials')
+    else:
+       messages.error(request, 'Error submitting')
+       return redirect('give_materials')
+  else:
+    form = materialForm()
+  # lecturer units
+  lecturer_details = Lecturer.objects.filter(staff_no=request.user)
+  
+  context = {
+		'form': form,
+    'lecturer_details': lecturer_details,
+	  }
+  return render(request, 'give_materials.html', context)
 
 
 # view lecturers assignments
@@ -271,7 +315,19 @@ def lec_view_assignments(request):
 
   return render(request,'lec_view_assignments.html', context)
 
-
+# view lecturers reading materials
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(lecturer_redirect,login_url='/')
+def lec_view_materials(request):
+  # get the lec instance
+  lec = Lecturer.objects.get(staff_no=request.user)
+  # all the reading materials under the logined lec
+  materials = Material.objects.filter(staff_no=lec)
+  context = {
+    'materials':materials,
+  }
+  return render(request,'lec_view_materials.html', context)
 
 # view lecturers assignments by filtering the unit code
 @login_required(login_url='login')
@@ -381,6 +437,33 @@ def student_view_assignments(request):
   return render(request, 'student_view_assignments.html', context)
 
 
+
+
+# view for showing the students reading materials
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(student_redirect,login_url='/')
+def student_view_materials(request):
+  # get the student details 
+  student_details = Student.objects.filter(adm_no=request.user)
+  materials_list = {}
+  # get the student units
+  units = Student.objects.get(adm_no=request.user)
+  # loop through the student units
+  for unit in units.units:
+    # get the reading materials for the currents units add them in a object
+    materials = Material.objects.filter(unit_code=unit)
+    for material in materials:
+      materials_list[material.unit_code] = material
+  
+  context = {
+    'materials_list': materials_list,
+    'student_details':student_details
+  }
+  return render(request, 'student_view_materials.html', context)
+
+
+
 # view for submiting the students assignments
 @login_required(login_url='login')
 @csrf_protect
@@ -412,7 +495,11 @@ def student_submit_assignment(request, assign_id):
       assign.assign_id = assignment
       assign.adm_no = student
       assign.save()
-      return redirect('student_view_assignments')
+      messages.success(request, 'Assignement submitted successfully')
+      return HttpResponseRedirect(reverse('student_submit_assignment', args=[assign_id]))
+    else:
+       messages.error(request, 'Error submiting assignment')
+       return HttpResponseRedirect(reverse('student_submit_assignment', args=[assign_id]))
   else:
     try:
       # submission instance
@@ -433,6 +520,34 @@ def student_submit_assignment(request, assign_id):
   }
   
   return render(request, 'student_submit_assignment.html', context)
+
+
+
+# view for finding a lecturer
+@login_required(login_url='login')
+@csrf_protect
+@user_passes_test(student_redirect,login_url='/')
+def find_lecturer(request):
+  lecturers_list = {}
+  if request.method == "POST":
+    # get the q
+    query_tag = request.POST.get('q')
+    # perform the query for the lecturers
+    try:
+      # complex query
+      lecturers = Lecturer.objects.filter(
+        Q(lec_units__overlap=[query_tag]) | Q(full_name__icontains=query_tag)
+      )
+      for lecturer in lecturers:
+        lecturers_list[lecturer.staff_no] = {
+          'name' : lecturer.full_name,
+          'units': lecturer.lec_units
+        }
+      return JsonResponse(lecturers_list)
+    except Lecturer.DoesNotExist:
+      pass
+  return render(request, 'find_lecturer.html')
+
 # view for signing new users
 def sign_up(request):
     if request.method == "POST":

@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="below_nav">
+    <h3 class="center-align">Give reading materials</h3>
+  </div>
+<div class="grid-container">
+    <div class="grid-x grid-padding-x">
+		<div class="large-3 medium-3 cell">
+            <ul class="breadcrumbs">
+                    <li><a href="{% url 'lecturer_dashboard' %}">Lecturer Dashboard</a></li>
+                    <li class="current"><a href="{% url 'give_materials' %}">Give reading materials</a></li>
+                </ul>
+        {% if messages %}
+            <ul class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
+                        <div class="callout success small" data-closable="slide-out-right">
+                        <p>{{ message }}</p>
+                        <button class="close-button" aria-label="Dismiss alert" type="button" data-close>
+                        <span aria-hidden="true">&times;</span>
+                        </button>
+                        </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+            <ul class="collection with-header">
+                <li class="collection-header"><p class="lead">Select the unit</p></li>
+                    {% for lecturer in lecturer_details %}
+                        {% for unit in lecturer.lec_units %}
+                            <li class="collection-item">{{ unit}}</li>
+                        {% endfor %}
+                {% endfor %}
+            </ul>
+            
+            <a class="action_container" href="{% url 'lec_view_materials' %}">
+                <p class="center-align">View reading materials</p>
+            </a>
+    </div>
+	<div class="large-9 medium-9 cell">
+
+      <div class="float-center" style="width: 70%">
+     
+				<p class="lead">Enter the details of the reading material</p>
+				<form method="post" action="{% url 'give_materials' %}" enctype="multipart/form-data">
+				{% csrf_token %}
+				{{ form|crispy }}
+        <input type="submit" class="btn-small float-center" value="Submit" style="width: 100%;margin-bottom:40px">
+			</div>      
+    </div>
+		
+</div>
+</div>
+{% endblock %}

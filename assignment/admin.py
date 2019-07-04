@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Student, Lecturer, Unit, Course, Assignment, Submission
+from .models import Student, Lecturer, Unit, Course, Assignment, Submission, Material
 # Register your models here.
 
 class StudentAdmin(admin.ModelAdmin):
@@ -24,6 +24,9 @@ class AssignAdmin(admin.ModelAdmin):
 class SubmissionAdmin(admin.ModelAdmin):
 	list_display = ('assign_id', 'adm_no','assign_file','date_submitted')
 	list_display_links = ('assign_id', 'adm_no')
+class MaterialsAdmin(admin.ModelAdmin):
+	list_display = ('staff_no','unit_code','description','material_file','date_given')
+	list_display_links = ('staff_no', 'description')
 
 admin.site.register(Student, StudentAdmin)
 admin.site.register(Lecturer, LecturerAdmin)
@@ -31,3 +34,4 @@ admin.site.register(Course, CourseAdmin)
 admin.site.register(Unit, UnitAdmin)
 admin.site.register(Assignment,AssignAdmin)
 admin.site.register(Submission,SubmissionAdmin)
+admin.site.register(Material,MaterialsAdmin)

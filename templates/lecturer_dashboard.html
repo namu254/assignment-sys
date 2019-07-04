@@ -13,7 +13,10 @@
             <div class="user_details">
                 <ul class="dropdown menu float-right" data-dropdown-menu>
                     <li>
-                    <a href="#" class='profile_a waves-effect waves-light btn-small'>Account</a>
+                    <a href="#" class='profile_a'>
+                        <img src="{% static 'img/avatar.png' %}" alt="profile" width="50" height="50">
+                        Profile
+                    </a>
                         <ul class="menu profile_menu">
                             <li><a href="{% url 'lecturer_edit_units' %}">Edit units</a></li>
                             <li><a href="{% url 'logout' %}">Log out</a></li>
@@ -28,8 +31,13 @@
                     </span>
                     </p>
                 {% endfor %}
+                <br>
                 <div class="stu_curr_units">
-                    <p class='lead' style='margin-bottom: 10px;'>Selected lecturer units</p>
+                    <p class='lead' style='margin-bottom: 10px;'>Your selected units
+                    <small>
+                    <a href="{% url 'lecturer_edit_units' %}">Edit</a>
+                    </small>
+                    </p>
                     {% for lecturer in lecturer_details %}
                     {% for unit in lecturer.lec_units %}
                         <p class="stu_unit">{{ unit}}</p>
@@ -46,14 +54,15 @@
             <a class="action_container" href="{% url 'lec_view_assignments' %}">
                 <p class="center-align">View assignments</p>
             </a>
-            <a class="action_container" href='#'>
+            
+            <a class="action_container" href="{% url 'give_materials' %}">
                 <p class="center-align">Give reading materials</p>
             </a>
-            <a class="action_container" href='#'>
-                <p class="center-align">Student inquiry on missing marks</p>
+            <a class="action_container" href="{% url 'lec_view_materials' %}">
+                <p class="center-align">View reading materials</p>
             </a>
             <a class="action_container" href='#'>
-                <p class="center-align">Feedback from your students</p>
+                <p class="center-align">Find a student</p>
             </a>
             <a class="action_container" href='#'>
                 <p class="center-align">View reports</p>
