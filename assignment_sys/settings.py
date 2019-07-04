@@ -82,18 +82,33 @@ WSGI_APPLICATION = 'assignment_sys.wsgi.application'
 #     }
 # }
 
+# offline database
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'slas',
+#         'USER': 'postgres',
+#         'PASSWORD' : '3ph4ntu8',
+#         'HOST' : 'localhost',
+#         'PORT' : '',
 
+#     }
+# }
+
+# heroku database
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'slas',
-        'USER': 'postgres',
-        'PASSWORD' : '3ph4ntu8',
-        'HOST' : 'localhost',
-        'PORT' : '',
+        'NAME': 'dbtpfi4qd1oohb',
+        'USER': 'bgnenoomuihdck',
+        'PASSWORD' : 'dff76d7eea07b33fa98dcf157117d95b92f565ad5153b77c30eb5e16442b6dda',
+        'HOST' : 'ec2-23-21-160-38.compute-1.amazonaws.com',
+        'PORT' : '5432',
 
     }
 }
+
+
 
 
 # Password validation
