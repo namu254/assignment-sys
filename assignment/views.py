@@ -35,6 +35,7 @@ def index(request):
   user = request.user
   is_student = Student.objects.filter(adm_no=user).exists()
   is_lecturer = Lecturer.objects.filter(staff_no=user).exists()
+  # 
   if is_student:
     print("hello student")
     return redirect('student_dashboard')
