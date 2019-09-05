@@ -19,3 +19,9 @@ then run the system
 py manage.py runserver
 ```
 Open this link on your browser http://127.0.0.1:8000/
+
+[jqueryui](https://jqueryui.com)
+
+[jquery](https://jquery.com)
+
+[crispy-forms](https://django-crispy-forms.readthedocs.io/en/latest/)
