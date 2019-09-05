@@ -2,7 +2,11 @@
 A system designed for use in a school setup, by both lecturers and students. It provides a platform where a lecturer can upload student assignment and reading materials. On the other hand, a student is able to access and download materials uploaded by the lecturer, submit assignments as per the specified time, and make enquiries
 
 ## Installation
-Clone this repo to your machine
+Create a virtual environment
+```Bash
+virtualenv blackboard_env
+```
+Clone this repo inside the virtualenv
 ```Bash
 git clone https://github.com/namu254/assignment_sys.git
 ```
