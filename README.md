@@ -25,3 +25,5 @@ Open this link on your browser http://127.0.0.1:8000/
 [jquery](https://jquery.com)
 
 [crispy-forms](https://django-crispy-forms.readthedocs.io/en/latest/)
+
+[zurb foundation 6](https://foundation.zurb.com/sites/docs/)
