@@ -14,3 +14,4 @@ then run the system
 ```Python
 py manage.py runserver
 ```
+Open this link on your browser http://127.0.0.1:8000/
