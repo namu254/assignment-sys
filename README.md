@@ -1,6 +1,9 @@
 ## Blackboard
 A system designed for use in a school setup, by both lecturers and students. It provides a platform where a lecturer can upload student assignment and reading materials. On the other hand, a student is able to access and download materials uploaded by the lecturer, submit assignments as per the specified time, and make enquiries
 
+![Screenshot from 2019-10-01 17-13-01](https://user-images.githubusercontent.com/29103362/65970267-dd30a900-e46e-11e9-8ee2-c7dba9bfed02.png)
+
+
 ## Installation
 Create a virtual environment
 ```Bash
