@@ -3,6 +3,8 @@ A system designed for use in a school setup, by both lecturers and students. It 
 
 ![Screenshot from 2019-10-01 17-13-01](https://user-images.githubusercontent.com/29103362/65970267-dd30a900-e46e-11e9-8ee2-c7dba9bfed02.png)
 
+![Screenshot from 2019-10-01 17-14-50](https://user-images.githubusercontent.com/29103362/65970367-149f5580-e46f-11e9-9717-bb46320dac23.png)
+
 
 ## Installation
 Create a virtual environment
