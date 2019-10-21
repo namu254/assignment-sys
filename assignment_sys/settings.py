@@ -89,7 +89,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'slas',
         'USER': 'postgres',
-        'PASSWORD' : '3ph4ntu8',
+        'PASSWORD' : '',
         'HOST' : 'localhost',
         'PORT' : '',
 
